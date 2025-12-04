@@ -4,8 +4,8 @@
   {{ super() }}
   <style>
   .qr {
-    width: 70vh;
-    height: 70vh;
+    width: 80vw;
+    height: 80vw;
     position: relative;
     border-bottom: solid;
     margin: 0 auto;
@@ -127,7 +127,7 @@
   <script>
     function changeElement() {
       //el.classList.toggle('active');
-      let el = document.getElementById('qr_list');
+      let el = document.getElementById('qr');
       if(el.style.display==''){
         el.style.display='none';
       }else{
@@ -139,26 +139,18 @@
   <a>
     <button type="button" onclick="changeElement();">QRの表示</button>
   </a>
-  <div id="qr_list">
-    <ul>
-    {% for shop in shops %}
-      <li>
-        <div style='border:10px;'>
-          <p>店名:{{ shop.name }}</p>
-          <div class="qr">
-            <img src="data:image/png;base64,{{ shop.qr }}" class="qr_img" name="{{ shop.name }}"/>
-            <!-- <img src="{{ static('img/icon_cover.png') }}" > -->
-          </div>
+  <ul id="qr">
+  {% for shop in shops %}
+    <li>
+      <div style='border:10px;'>
+        <p>店名:{{ shop.name }}</p>
+        <div class="qr">
+          <img src="data:image/png;base64,{{ shop.qr }}"/>
+          <!-- <img src="{{ static('img/icon_cover.png') }}" > -->
         </div>
-      </li>
-    {% endfor %}
-    </ul>
-  </div>
+      </div>
+    </li>
+  {% endfor %}
+  </ul>
   <script>changeElement();</script>
-  <!-- for download QR img -->
-  <!-- JSZip CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
-  <!-- FileSaver.js CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-  <script type="text/javascript" src="{{ static('js/qr_list.js') }}"></script>
 {% endblock %}
