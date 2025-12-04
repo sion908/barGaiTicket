@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}バル街{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+  <h1>バル街　TOP</h1>
+  <a href="{{ url('product:showShop') }}">お店紹介</a>
+  <a href="{{ url('login') }}">チケットを購入する</a>
+  <a href="{{ url('logout') }}">ログアウトする</a>
+{% endblock %}

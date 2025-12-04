@@ -1,0 +1,16 @@
+{% extends 'trans/liff_base.html' %}
+{% block title %}売買する{% endblock %}
+{% block head %}
+  {{ super() }}
+  
+  
+{% endblock %}
+{% block content %}
+  <p style="height:10%;padding-top:5%;padding-bottom:5%;font-size: 5em;">now loading</p>
+  <div id="loading" style="width:80%;margin: 0 auto;" class="loading">
+    <script src="{{ static('js/loading.js') }}"></script>
+    <script>mkload()</script>
+  </div>
+{% endblock %}
+{% block footer %}
+{% endblock %}

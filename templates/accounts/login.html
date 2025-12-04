@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}ログイン画面{% endblock %}
+{% block content %}
+  <h1>ログイン</h1>
+  <div class="reg">
+    <form method="post" action="{{ url('accounts:login') }}">
+      {{ csrf_input }}
+
+      {# User Name input #}
+      <div class="form-outline mb-4">
+        <input type="text" id="form2Example1" class="form-control" name="userid" value='{{ params.username }}'/>
+        <label class="form-label" for="form2Example1">UserID</label>
+      </div>
+
+      {# Password input #}
+      <div class="form-outline mb-4">
+        <input type="password" id="form2Example2" class="form-control" name="password" value='{{ params.password }}'/>
+        <label class="form-label" for="form2Example2">Password</label>
+      </div>
+
+      {# <table class="reg_form">
+       <tr>
+      <td><label for="userid">ユーザーID:</label></td>
+      <td><input type="text" name="userid" value='{{ params.username }}'></td>
+      <td><label for="password">パスワード : </label></td>
+      <td><input type="password" name="password" value='{{ params.password }}'></td>
+      </tr> 
+      </table> #}
+      <input type="hidden" name="next" value="{{ next }}">
+      <input type="submit" class="btn btn-primary btn-block mb-4" value="Sign in">
+   </form>
+  </div>
+     {# <p class="message">アカウントをお持ちですか？ : 
+     <a href="{{ url('register') }}">アカウントを作成</a>
+     </p> #}
+      {% if params.username %}
+     <script>
+      document.forms[0].submit()
+     </script>
+      {% endif %}
+{% endblock %}

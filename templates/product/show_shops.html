@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+{% block title %}{% endblock %}
+{% block head %}
+  {{ super() }}
+  <style>
+  .qr {
+    width: 70vh;
+    height: 70vh;
+    position: relative;
+    border-bottom: solid;
+    margin: 0 auto;
+  }
+  .qr img {
+    width: 100%;
+    position: absolute;
+    border: solid;
+    margin-bottom: 1em;
+  }
+  li p{
+    font-size: 2em;
+    margin: 0;
+  }
+  th,td {
+    border: solid 1px;              /* 枠線指定 */
+  }
+  
+  table {
+    border-collapse:  collapse;     /* セルの線を重ねる */
+    font-size: 1.5em;
+    margin: 1em auto;
+  }
+  ul{
+    display: flex;
+    flex-wrap: wrap;
+  }
+  li{
+    height: 100%;
+    padding-right: 3em;
+    margin: 1em 0;
+  }
+  .shop_name{
+    display: block;
+  }
+  .shop_altname{
+    display: none;
+  }
+  @media screen and (max-width: 1000px) {
+    .wide_appe {
+      display: none;
+    }
+    .shop_name{
+      display: none;
+    }
+    .shop_altname{
+      display: block;
+    }
+  }
+
+  </style>
+{% endblock %}
+{% block content %}
+
+  <table>
+    <tr>
+      <th>ユーザー数</th>
+      <th style="padding: 0 1em;">{{ users }}</th>
+    </tr>
+    {% if products %}
+    {% for product in products %}
+    <tr>
+      <th colspan="2">{{ loop.index }}:{{ product.name | safe }}</th>
+    </tr>
+    <tr>
+      <th style="padding: 0 1em;">クーポン合計枚数</th>
+      <th>{{ product.tickets }}</th>
+    </tr>
+    <tr>
+      <th>半券合計</th>
+      <th>{{ product.stubs }}</th>
+    </tr>
+    <tr>
+      <th>未使用半券</th>
+      <th>{{ product.no_used }}</th>
+    </tr>
+      
+    {% endfor %}
+    
+    {% endif %}
+    
+  </table>
+
+  <table>
+    <tr>
+      <th>店名</th>
+      {% for product in products %}
+        {% for month in product.month %}
+          <th><span class="wide_appe">半券</span>利用数 {{ loop.index }}<br>{{month}}</th>
+        {% endfor %}
+      {% endfor %}
+      <th class="wide_appe">住所</th>
+      <th class="wide_appe">営業時間</th>
+      <th class="wide_appe">メニュー</th>
+    </tr>
+    {% for shop in shops %}
+      <tr>
+        <td class="shop_name">{{ shop.name }}</td>
+        <td class="shop_altname">{{ shop.altname }}</td>
+        {% for product in products %}
+          {% for month in product.month %}
+            <td style="text-align: center;">{{ shop|get_month(product, month)}}</td>
+          {% endfor %}
+        {% endfor %}
+        <td class="wide_appe">{{ shop.access }}</td>
+        <td class="wide_appe">{{ shop.hour }}</td>
+        <td class="wide_appe">{{ shop.menu }}</td>
+      </tr>
+    {% endfor %}
+    
+  </table>
+
+  {% if owner.shop %}
+    <a href="{{ url('app:home') }}">
+      <button type="button">チケット利用状況</button>
+    </a>
+  {% else %}
+  {% endif %}
+  <script>
+    function changeElement() {
+      //el.classList.toggle('active');
+      let el = document.getElementById('qr_list');
+      if(el.style.display==''){
+        el.style.display='none';
+      }else{
+        el.style.display='';
+      }
+    }
+  </script>
+
+  <a>
+    <button type="button" onclick="changeElement();">QRの表示</button>
+  </a>
+  <div id="qr_list">
+    <ul>
+    {% for shop in shops %}
+      <li>
+        <div style='border:10px;'>
+          <p>店名:{{ shop.name }}</p>
+          <div class="qr">
+            <img src="data:image/png;base64,{{ shop.qr }}" class="qr_img" name="{{ shop.name }}"/>
+            <!-- <img src="{{ static('img/icon_cover.png') }}" > -->
+          </div>
+        </div>
+      </li>
+    {% endfor %}
+    </ul>
+  </div>
+  <script>changeElement();</script>
+  <!-- for download QR img -->
+  <!-- JSZip CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
+  <!-- FileSaver.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <script type="text/javascript" src="{{ static('js/qr_list.js') }}"></script>
+{% endblock %}

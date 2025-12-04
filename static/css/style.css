@@ -1,0 +1,39 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+header{
+  font-size: 3em;
+  text-align: center;
+  color: #3A8B46;
+  background-color: #F8EDE7;
+  padding: 0.5em;
+  margin: 0;
+  margin-bottom: 1em;
+}
+.container{
+  width: 80%;
+  margin: 0 auto;
+}
+footer{
+  text-align: right;
+  margin: 5% auto;
+}
+header .long_tex{
+  display: contents;
+}
+header .long_tex_h{
+  display: none;
+}
+
+@media screen and (max-width: 750px){
+  header{
+    font-size: 1.5em;
+  }
+  header .long_tex{
+    display: none;
+  }
+  header .long_tex_h{
+    display: contents;
+  }
+}

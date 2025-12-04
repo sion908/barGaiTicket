@@ -1,0 +1,72 @@
+{% extends 'trans/liff_base.html' %}
+{% block title %}ダッシュボード{% endblock %}
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{ static('css/dashboard.css') }}" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/charts.css/dist/charts.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+{% endblock %}
+{% block initliff %}{% endblock %}
+{% block content %}
+  <div class="reload"><button id='btn'><i class="fa-solid fa-arrows-rotate"></i></button></div>
+  <div class="time" style="text-align:right;"></div>
+  <div id="data" style="text-align: center;">
+    
+    <table border="1" id='table'>
+        <tr>
+          <th>番号</th>
+          <th>id</th>
+          <th>時間</th>
+        </tr>
+    </table>
+  </div>
+  <div style="text-align: center;padding: 2em;">{{shop.name}}</div>
+  {# <div id='shop-data'>
+    <p>名前：{{shop.name}}</p>
+    <p>住所：{{shop.access}}</p>
+    <p>電話番号：{{ shop.phone }}</p>
+    <p>営業時間：{{ shop.hour }}</p>
+    <p>メニュー：{{ shop.menu }}</p>
+  </div> #}
+  <a href="{{ url('app:home') }}">
+    <button type="button">戻る</button>
+  </a>
+  <script>
+    let bdt="";
+    const formatDate = (be_date)=>{
+      current_datetime = new Date(be_date)
+    let formatted_date = current_datetime.getYear().toString().slice(1) + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getDate() + " " + current_datetime.getHours() + ":" + current_datetime.getMinutes() + ":" + current_datetime.getSeconds();
+    return formatted_date;
+    }
+    ed=document.getElementById('table');
+    et=document.getElementsByClassName('time')[0];
+    const getData=()=>{
+      const dt = new Date();
+      const ndt = dt.toISOString();
+      if(this.bdt){
+        var diff = dt - new Date(this.bdt);
+        if(diff<(10*1000)){return}
+      }
+      fetch(`/api/stub/${this.bdt?"?time="+this.bdt:""}`)
+      .then((res)=>res.json())
+        .then(data => {
+            this.data = data
+            for(var stub of data.stubs){
+              tr = ed.insertRow(1);
+              td=tr.insertCell(-1);
+              td.textContent=stub.pk;
+              td=tr.insertCell(-1);
+              td.textContent=stub.user_id;
+              td=tr.insertCell(-1);
+              td.textContent=formatDate(stub.time);
+            }
+            this.bdt=ndt;
+            et.innerText=`最終更新 [${formatDate(dt)}]`;
+        });}
+    getData()
+    document.getElementById('btn').addEventListener('click',getData)
+  </script>
+{% endblock %}
+{% block footer %}
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}商品の確認{% endblock %}
+{% block head %}
+    {{ super() }}
+
+{% endblock %}
+{% block content %}
+  {% if status=='complete' %}
+    <h1>congratulation!!</h1>
+    <h2>商品が購入されました</h2>
+    <p>{{ name }}</p>
+    {% for ticket in tickets %}
+      <h3>{{ ticket.kind.name }}</h3>
+      <p>価格 : {{ ticket.kind.price }}</p>
+    {% endfor %}
+  {% else %}
+    <p>商品の購入をしてください</p>
+  {% endif %}
+
+  <a href="{{ url('app:home') }}">home画面へ</a>
+    
+{% endblock %}

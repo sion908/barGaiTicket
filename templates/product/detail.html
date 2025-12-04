@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}detail{% endblock %}
+{% block head %}
+  {{ super() }}
+  
+{% endblock %}
+{% block content %}
+  <h1>detail</h1>
+  {# <p>{{ product.name }}</p> #}
+  {# <p>{{ product.description }}</p> #}
+  {# <p>{{ product.price }}</p> #}
+  {# <p>{{ product.image.name }}</p> #}
+  {# <p>{{ product.image.url }}</p> #}
+  <p>{{ posted }}</p>
+  <p>{{ posted.image }}</p>
+  <p>{{ posted.image.url }}</p>
+  <img src="{{ posted.image.url }}" alt="posted.name">
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block title %}h{% endblock %}
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{ static('css/employ.css') }}">
+  {% if is_get %}
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@latest/build/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@latest/dist/jsQR.min.js"></script>
+    <script type="text/javascript" src="{{ static('js/employ/readqr.js') }}"></script>
+  {% else %}
+    <script type="text/javascript" src="{{ static('js/employ/popup.js') }}"></script>
+  {% endif %}
+  
+{% endblock %}
+{% block content %}
+<!-- <h3>{{ is_get }}</h3> -->
+  
+  {% if is_get %}
+    {% if message %}
+      <p>{{ message }}</p>
+    {% endif %}
+    <video id="player" autoplay></video>
+    <canvas id="snapshot" width="350" height="640"></canvas>
+        <form action="{{ url('app:employ') }}" method="post" display="none" name="send_shop_id">
+          <input type="hidden" name="shop_id" value="">
+          {{ csrf_input }}
+        </form>    
+
+  {% else %}
+    {% if can_max_use|int > 2 %}
+      <div class="confirm">
+        <p>この店で利用してもよろしいですか？</p>
+        <p>店名 : {{ shop.name }}</p>
+        <p>また，利用枚数は何枚ですか？</p>
+
+        <form action="{{ url('app:home') }}" method="post" name='select_num'>
+          <select name="value_num">
+            {% for i in range( can_max_use|int ) %}
+              <option  value="{{ i+1 }}">{{ i+1 }}</option>
+            {% endfor %}
+          </select><p>枚</p>
+          <input type="button" class="confirm btn" value="確認する" >
+        </form>
+      </div>
+
+      <div class="approve" style="display:none;">
+        <p>店名 : {{ shop.name }}</p>
+        <p>利用枚数 :  <span class='count'>1</span> 枚</p>
+        <p>間違いないですか？</p>
+        <input type="button" class="back btn" value="戻る">
+        <form action="{{ url('app:employ_procedure') }}" method="post">
+          {{ csrf_input }}
+          <input type="hidden" name="employ_num" value="0">
+          <input type="hidden" name="shop_id" value={{ shop.id }}>
+          <input type="submit" value="利用する">
+        </form>
+      </div>
+    {% else %}
+      <div class="approve">
+        <p>店名 : {{ shop.name }}</p>
+        <p>利用枚数 : 1枚</p>
+        <p>間違いないですか？</p>
+        <form action="{{ url('app:employ_procedure') }}" method="post">
+          {{ csrf_input }}
+          <input type="hidden" name="employ_num" value="1">
+          <input type="hidden" name="shop_id" value={{ shop.id }}>
+          <input type="submit" value="利用する">
+        </form>
+      </div>
+    {% endif %}
+
+  {% endif %}
+
+{% endblock %}

@@ -1,0 +1,72 @@
+/* selector */
+fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+.radio-inline__input {
+    clip: rect(1px, 1px, 1px, 1px);
+    position: absolute !important;
+}
+
+.radio-inline__label {
+    display: inline-block;
+    padding: 2rem 4rem;
+    border-radius: 1rem;
+    transition: all .2s;
+    font-size: 40px;
+    margin: 0.5rem 2rem;
+    background-color: #ccc;
+}
+
+.radio-inline__input:checked + .radio-inline__label {
+    background: #B54A4A;
+    color: #fff;
+    text-shadow: 0 0 1px rgba(0,0,0,.7);
+}
+
+.radio-inline__input:focus + .radio-inline__label {
+    outline-color: #4D90FE;
+    outline-offset: -2px;
+    outline-style: auto;
+    outline-width: 0.5rem;
+}
+
+button{
+    font-size: 40px;
+    margin: 50px;
+    padding: 20px 40px;
+}
+.error_text{
+    color: red;
+    font-size: 2em;
+}
+::-webkit-scrollbar{
+    width: 20px;
+}
+::-webkit-scrollbar-track{
+    background-color: #ccc;
+}
+::-webkit-scrollbar-thumb{
+    background-color: #444;
+}
+#popup-body{
+    height:80%;
+}
+#description{
+    font-size: 30px;
+    text-align: left;
+    margin: 0 auto;
+    width: 90%;
+    height: 80%;
+    background: #fff;
+    overflow-y: auto;
+    white-space: pre-line;
+}
+.note_tex{
+    font-size: 30px;
+    text-align: right;
+    width: 80%;
+    margin: 1em auto;
+}

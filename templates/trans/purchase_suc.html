@@ -1,0 +1,32 @@
+{% extends 'trans/liff_base.html' %}
+{% block title %}商品の確認{% endblock %}
+{% block head %}
+    {{ super() }}
+    <script>
+      const closeWindow=()=>{liff
+        .sendMessages([
+          {
+            type: "text",
+            text: "Hello, World!",
+          },
+        ])
+        .then(() => {
+          liff.closeWindow()
+        })}
+    </script>
+{% endblock %}
+{% block initliff %}{% endblock initliff %}
+{% block content %}
+  {# {% if already %}
+    <p>すでに購入されています</p>
+    <p>リッチメニューから，チケットを確認してみてください</p>
+  {% else %} #}
+    <h2>商品が購入されました</h2>
+    <p>{{ name }}</p>
+    {% for ticket in tickets %}
+      <h3>{{ ticket.prod.name | safe }}</h3>
+      <p>価格 : {{ ticket.prod.price }} x {{ticket.quantity}}枚</p>
+    {% endfor %}
+    {# <button type="button" onclick="closeWindow()">クリックするとメッセージが表示</button> #}
+
+{% endblock %}

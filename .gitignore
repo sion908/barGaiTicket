@@ -1,0 +1,9 @@
+__pycache__
+ndb.sqlite3
+.DS_Store
+local_settings.py
+.flake8
+.env
+run.sh
+*.toml
+*dev*

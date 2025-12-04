@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% block title %}使い方{% endblock %}
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{ static('css/howto.css') }}">
+{% endblock %}
+{% block content %}
+    <h1>チケットの使い方</h1>
+    <h3>購入方法</h3>
+    <div class="sub__flow flow">
+      <div class="flow__detail">
+        <ul class="flow__list">
+          <li class="flow__item">
+            <div class="flow__canvas">
+              <img class="flow__image" src="{{ static('img/howto/purchase_0.png') }}" alt="">
+            </div>
+            <p class="flow__text">メニューから<strong class="flow__text--emphasis">[購入]</strong>をタップ</p>
+          </li>
+          <!-- /flow__item -->
+          <li class="flow__item">
+            <div class="flow__canvas">
+              <img class="flow__image" src="{{ static('img/howto/purchase_1.png') }}" alt="">
+            </div>
+            <p class="flow__text">購入する枚数を選ぶ</p>
+          </li>
+          <!-- /flow__item -->
+          <li class="flow__item">
+            <div class="flow__canvas">
+              <img class="flow__image" src="{{ static('img/howto/purchase_2.png') }}" alt="">
+            </div>
+            <p class="flow__text">注意事項を確認する</p>
+          </li>
+          <!-- /flow__item -->
+          <li class="flow__item">
+            <div class="flow__canvas">
+              <img class="flow__image" src="{{ static('img/howto/purchase_3.png') }}" alt="">
+            </div>
+            <p class="flow__text">クレジットカード情報を入力</p>
+          </li>
+          <li class="flow__item">
+            <div class="flow__canvas">
+              <img class="flow__image" src="{{ static('img/howto/purchase_4.png') }}" alt="">
+            </div>
+            <p class="flow__text">購入完了！</p>
+          </li>
+          <!-- /flow__item -->
+        </ul>
+      <ol class="flow__position position"><li class="position__item position__item--current"><span class="position__dot"></span></li><li class="position__item"><span class="position__dot"></span></li><li class="position__item"><span class="position__dot"></span></li><li class="position__item"><span class="position__dot"></span></li></ol><ol class="flow__position position"><li class="position__item"><span class="position__dot"></span></li><li class="position__item"><span class="position__dot"></span></li><li class="position__item"><span class="position__dot"></span></li><li class="position__item"><span class="position__dot"></span></li></ol></div>
+    </div>
+    <h3>利用方法</h3>
+    <div class="sub__flow flow">
+      <div class="flow__detail">
+        <ul class="flow__list">
+          <li class="flow__item">
+            <div class="flow__canvas">
+              <img class="flow__image" src="{{ static('img/howto/employ_0.png') }}" alt="">
+            </div>
+            <p class="flow__text">メニューから<strong class="flow__text--emphasis">[利用]</strong>をタップ</p>
+          </li>
+          <!-- /flow__item -->
+          <li class="flow__item">
+            <div class="flow__canvas">
+              <img class="flow__image" src="{{ static('img/howto/employ_1.png') }}" alt="">
+            </div>
+            <p class="flow__text">カメラへのアクセスを許可する</p>
+          </li>
+          <!-- /flow__item -->
+          <li class="flow__item">
+            <div class="flow__canvas">
+              <img class="flow__image" src="{{ static('img/howto/employ_2.png') }}" alt="">
+            </div>
+            <p class="flow__text">お店におかれたQRコードを読み取る</p>
+          </li>
+          <!-- /flow__item -->
+          <li class="flow__item">
+            <div class="flow__canvas">
+              <img class="flow__image" src="{{ static('img/howto/employ_3.png') }}" alt="">
+            </div>
+            <p class="flow__text">利用する半券の枚数を選ぶ</p>
+          </li>
+          <li class="flow__item">
+            <div class="flow__canvas">
+              <img class="flow__image" src="{{ static('img/howto/employ_4.png') }}" alt="">
+            </div>
+            <p class="flow__text">画面を店員に見せ<strong class="flow__text--emphasis">[支払う]</strong>のところをスライド</p>
+          </li>
+          <li class="flow__item">
+            <div class="flow__canvas">
+              <img class="flow__image" src="{{ static('img/howto/employ_5.png') }}" alt="">
+            </div>
+            <p class="flow__text">支払い完了！</p>
+          </li>
+          <!-- /flow__item -->
+        </ul>
+      <ol class="flow__position position"><li class="position__item position__item--current"><span class="position__dot"></span></li><li class="position__item"><span class="position__dot"></span></li><li class="position__item"><span class="position__dot"></span></li><li class="position__item"><span class="position__dot"></span></li></ol><ol class="flow__position position"><li class="position__item"><span class="position__dot"></span></li><li class="position__item"><span class="position__dot"></span></li><li class="position__item"><span class="position__dot"></span></li><li class="position__item"><span class="position__dot"></span></li></ol></div>
+    </div>
+{% endblock %}

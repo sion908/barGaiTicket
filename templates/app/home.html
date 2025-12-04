@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% block title %}mypage{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ static('css/popup.css') }}" />
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="{{ static('js/stripe.js') }}"></script>
+{% endblock %}
+{% block content %}
+    <h1>mypage(home画面)</h1>
+    <p>ユーザー名 : {{ username }}</p>
+
+    <h3>所持してるチケットに関して</h3>
+
+    <ul>
+      {% for product in products %}
+        <li><p>{{ product.name | safe }} </p><p> 説明:{{ product.description }} 価格:{{ product.price }}円</p>
+        {%- set tickets_by_product = tickets.filter(kind=product) %}
+        <ul>
+        {% if tickets_by_product %}
+        
+        {% for ticket in tickets_by_product %}
+        
+        
+          <li>チケット{{ loop.index }}枚目</li>
+          <p>チケットが支払われているか:{{ ticket.is_pay }}</p>
+          <ul>
+          {% if ticket.shop_A %}
+            <li>1店舗目:{{ ticket.shop_A }}</li>
+            <p>使用済みであるか : {{ ticket.is_used_shop_A }}</p>
+          {% endif %}
+
+          {% if ticket.shop_B %}
+            <li>2店舗目:{{ ticket.shop_B }}</li>
+            <p>使用済みであるか : {{ ticket.is_used_shop_B }}</p>
+          {% endif %}
+
+          {% if ticket.shop_C %}
+            <li>3店舗目:{{ ticket.shop_C }}</li>
+            <p>使用済みであるか : {{ ticket.is_used_shop_C }}</p>
+          {% endif %}
+          </ul>
+
+        {% endfor %}
+        
+        {% else %}
+          <p>チケットを所有していません</p>
+        {% endif %}
+        </ul></li>
+      {% endfor %}
+
+    </ul>
+
+    {# ポップアップで購入画面へ遷移 #}
+    <label>
+      <span>チケットを購入する</span>
+      <input type="checkbox" name="checkbox">
+      <div id="popup">
+        <div class="batsu">×</div>
+        <h2>購入画面</h2>
+
+          <form action="{{ url('app:buy') }}" method="POST">
+            {% for product in products %}
+              <h3>{{ product.name | safe }}</h3>
+              <p>説明 : {{ product.description }}</p>
+              <p>価格 : {{ product.price }}円</p>
+              {%- set pos = product.max_sell - tickets.filter(kind=product).count() %}
+              <p>残り購入可能枚数は{{ pos }}枚です</p>
+              <select name="{{ product.pk }}" id="count-selected">
+                {% for i  in range(pos+1) %}
+                  <option value="{{ i }}">{{ i }}</option>
+          
+                {% endfor %}
+              </select>
+            {% endfor %}
+            {{ csrf_input }}
+            <p></p>
+            <button type="submit">Checkout</button>
+          </form>
+
+      </div>
+    </label>
+    <a href="{{ url('app:employ') }}" style="padding: 3px;border: solid black 5px;margin: 5px;">チケットを使う</a>
+
+    {% if shop %}
+      <h3>編集可能な店について</h3>
+      <p>{{ shop.name }}</p>
+      <p>{{ shop.access }}</p>
+      <p>{{ shop.hour }}</p>
+      <p>{{ shop.comment }}</p>
+    {% endif %}
+    <a href="{{ url('logout') }}">ログアウトする</a>
+{% endblock %}

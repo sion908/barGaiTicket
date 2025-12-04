@@ -1,0 +1,77 @@
+{% extends 'trans/liff_base.html' %}
+{% block title %}use{% endblock %}
+{% block head %}
+  {{ super() }}
+  <script src="{{ static('js/jsQR.js') }}"></script>
+  <link rel="stylesheet" href="{{ static('css/popup.css') }}" />
+  <link rel="stylesheet" href="{{ static('css/liff_employ.css') }}" />
+{% endblock %}
+{% block afinitliff %}
+  this.accessToken = liff.getAccessToken();
+  console.log(this.accessToken);
+  const formElements = document.forms.employForm;
+  formElements.lineToken.value=this.accessToken;
+  {% if shop %}
+    const shop_id = '{{ shop.id }}';
+    confQR(shop_id)
+  {% else %}
+    startScan()
+  {% endif %}
+{% endblock %}
+{% block content %}
+  <h2>利用</h2>
+  <div class="status"></div>
+
+  <div id="loadingMessage">🎥 Unable to access video stream (please make sure you have a webcam enabled)</div>
+  <canvas id="canvas" hidden></canvas>
+  <div>QRコードをスキャンしてください</div>
+  <div id="popup">
+    <input class="batsu" value="x" type="button">
+    <div id="popup-body">
+      <div id="description">
+        <p class="shopName">店名:${shop.name}</p>
+        <p class="1a" hidden><span id="appear_num" style="font-size:3em;">0</span> 枚</p>
+        <p style="font-size:40px;text-align:right;padding-right: 20%;" class="1a" hidden>(<span id="appear_price_s">500</span>円分)</p>
+      </div>
+      <div style="font-size: 40px;" class="non_ticket" hidden>
+        使えるチケットがありません<br>チケットを購入してください
+        <button type="button" style="font-size:40px;" onclick="window.location.href='/line/trans/purchase'">クーポンを買う</button>
+      </div>
+      <form name="employForm" action="{{ url('line:employ') }}" method="POST">
+        <input type="hidden" name="lineToken">
+        <input type="hidden" name="shop_id" value="{{ shop.id }}">
+        {{ csrf_input }}
+        <!-- <input type="hidden" name="employ_num" value="0"> -->
+        <div class="select_num_cover 1s"><select name="employ_num" id="select_num">
+          <option  value="0">0</option>
+        </select>枚</div>
+        <div class="1s">
+          <p style="font-size: 50px;">X</p>
+          <p>500円</p>
+          <p>||</p>
+          <p style="text-decoration: underline;"><span id="appear_price_c">0</span>円</p>
+        </div>
+      </form>
+
+      <button type="button" id="btn-next" class="1s">次へ</button>
+      <p class="conf-tex 1a 2s" hidden>お店の人に見せてください</p>
+      <div class="2a" hidden>
+        <p class="payed-tex" >支払われました</p>
+        {% if questionnaire_url %}
+          <p style="word-break: normal; font-size:42px; bottom:0.7em;">アンケートに答えて素敵なプレゼントを手に入れよう<span style="font-size: 0.8em;"> (回答は一回のみでお願いします)</span></p>
+          <button type="button" id="btn-ques" onclick="location.href='{{ questionnaire_url }}'" style="font-size:40px; word-break: normal;">アンケートに答える</button>
+        {% endif %}
+      </div>
+      <div class="btn-slide-out 1a 2s" hidden>
+        <div class="text">使う >>></div>
+        <div class="btn-slide-in" id="mover"><div>></div></div>
+      </div>
+      <button type="button" id="btn-back" class="1a 2s" hidden>戻る</button>
+      <div id="loading" style="width:40%;margin: 0 auto;" class="loading"></div>
+    </div>
+  </div>
+  
+
+  <script src="{{ static('js/line/employ.js') }}"></script>
+  <script src="{{ static('js/loading.js') }}"></script>
+{% endblock %}

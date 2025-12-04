@@ -1,0 +1,64 @@
+{% extends 'trans/liff_base.html' %}
+{% block title %}ダッシュボード{% endblock %}
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{ static('css/dashboard.css') }}" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+{% endblock %}
+{% block afinitliff %}
+  this.accessToken = liff.getAccessToken();
+  console.log(this.accessToken);
+  getData()
+  document.getElementById('btn').addEventListener('click',getData)
+{% endblock %}
+{% block content %}
+  <div class="shop" style="font-size:5em;"></div>
+  <div class="reload"><button id='btn'><i class="fa-solid fa-arrows-rotate"></i></button></div>
+  <div class="time" style="font-size:3em;text-align:right;"></div>
+  <div id="data" style="text-align: center;">
+    <table border="1" id='table'>
+        <tr>
+          <th>番号</th>
+          <th>id</th>
+          <th>時間</th>
+        </tr>
+    </table>
+  </div>
+  <script>
+    let bdt="";
+    const formatDate = (be_date)=>{
+      current_datetime = new Date(be_date)
+    let formatted_date = current_datetime.getYear().toString().slice(1) + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getDate() + " " + current_datetime.getHours() + ":" + current_datetime.getMinutes() + ":" + current_datetime.getSeconds();
+    return formatted_date;
+    }
+    ed=document.getElementById('table');
+    es=document.getElementsByClassName('shop')[0];
+    et=document.getElementsByClassName('time')[0];
+    const getData=()=>{
+      const dt = new Date();
+      const ndt = dt.toISOString();
+      if(this.bdt){
+        var diff = dt - new Date(this.bdt);
+        if(diff<(10*1000)){return}
+      }
+      fetch(`/api/stub/${this.accessToken}/${this.bdt?"?time="+this.bdt:""}`)
+      .then((res)=>res.json())
+        .then(data => {
+            this.data = data
+            for(var stub of data.stubs){
+              tr = ed.insertRow(1);
+              td=tr.insertCell(-1);
+              td.textContent=stub.pk;
+              td=tr.insertCell(-1);
+              td.textContent=stub.user_id;
+              td=tr.insertCell(-1);
+              td.textContent=formatDate(stub.time);
+            }
+            this.bdt=ndt;
+            es.innerText=data.shop;
+            et.innerText=`最終更新 [${formatDate(dt)}]`;
+        });}
+  </script>
+{% endblock %}
+{% block footer %}
+{% endblock %}

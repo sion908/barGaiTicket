@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    {% block head %}
+    <link rel="icon" href="{{ static('img/favicon.ico') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ static('css/style.css') }}" />
+    <title>{% block title %}{% endblock %} - 長崎居留地プレミアムクーポン</title>
+    {% endblock head %}
+</head>
+<body>
+  <header>
+    <div class="header_text">長崎<span class="long_tex">居留地</span><span class="long_tex_h">...</span>アベニュー<span class="long_tex">実行委員会</span><span class="long_tex_h">...</span></div>
+  </header>
+  <div id="content"><div class="container">{% block content %}{% endblock %}</div></div>
+  <footer>
+      {% block footer %}
+      &copy; Copyright 2022 by <a href="https://nagasakiavenue.wixsite.com/avenue">長崎居留地アベニュー実行委員会</a>.
+      {% endblock %}
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+</body>
+</html>

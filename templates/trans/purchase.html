@@ -1,0 +1,86 @@
+{% extends 'trans/liff_base.html' %}
+{% block title %}商品の確認{% endblock %}
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{ static('css/popup.css') }}" />
+  <link rel="stylesheet" href="{{ static('css/purchase.css') }}" />
+  <script src="https://js.stripe.com/v3/"></script>
+  <script>this.liff_id='{{ liff_id }}'</script>
+  <!-- <script src="{{ static('js/stripe.js') }}"></script> -->
+
+{% endblock %}
+{% block initliff %}{% endblock initliff %}
+{% block content %}
+  <!-- <h2>購入</h2> -->
+  <script>let prods=[]</script>
+  
+  {% if cant_sell %}
+    <p>大変申し訳ございません．</p><p>販売上限に達しました．</p>
+    <p>最新情報については，下記リンクよりご覧ください</p>
+    <a href="https://nagasakiavenue.wixsite.com/avenue">長崎居留地アベニュー実行委員会</a>
+  {% else %}
+    {% if products %}
+      <form name="purchaseForm" action="{{ url('line:purchase') }}" method="POST">
+        {% for product in products %}
+          <script>prods.push("{{ product.pk }}")</script>
+          <h3>{{ product.name | safe }}</h3>
+          <p style="font-size: 50px;">{{ product.description }}</p>
+          <p>販売価格 : {{ product.price }}円</p>
+          {# <p>{{ count }}枚持ってます</p> #}
+          <fieldset>
+            <div class="radio_block">
+            <input id="1" class="radio-inline__input" type="radio" name="{{ product.pk }}" value="1"/>
+            <label class="radio-inline__label" for="1">
+                1 冊
+            </label>
+            <input id="2" class="radio-inline__input" type="radio" name="{{ product.pk }}" value="2"/>
+            <label class="radio-inline__label" for="2">
+                2 冊
+            </label>
+            </div>
+            <div class="radio_block">
+            <input id="3" class="radio-inline__input" type="radio" name="{{ product.pk }}" value="3"/>
+            <label class="radio-inline__label" for="3">
+                3 冊
+            </label>
+            </label>
+            <input id="4" class="radio-inline__input" type="radio" name="{{ product.pk }}" value="4"/>
+            <label class="radio-inline__label" for="4">
+                4 冊
+            </label>
+            <div>
+          </fieldset>
+          <!-- <select name="{{ product.pk }}" id="count-selected">
+            {% for i  in range(1,product.max_sell+1) %}
+              <option value="{{ i }}">{{ i }}</option>
+            {% endfor %}
+          </select> -->
+        {% endfor %}
+      
+        <p class="error_text" hidden>どれか一つを選んでください</p>
+        <input type="hidden" name="lineToken">
+        {{ csrf_input }}
+        <button type="button" id="next">次へ</button>
+        <div id="popup">
+          <input class="batsu" value="x" type="button" onclick="document.getElementById('popup').style.display='none';">
+          <div id="popup-body">
+            <h2 style="font-size: 60px;">利用規約</h2>
+            <p class="note_tex">最後までスクロールしてください</p>
+            <div id="description">
+              {% for product in products %}
+                {{ product.long_description }}<br><br>
+              {% endfor %}
+            </div>
+            <button type="submit" class="pay_btn" disabled>支払う</button>
+          </div>
+        </div>
+      </form>
+    {% else %}
+      <p>ただいま，購入できる商品がございません</p>
+      <p>プレミアムクーポンについては, 9月16日10時から販売開始いたします</p>
+      <p>また，最新情報については，下記リンクよりご覧ください</p>
+      <a href="https://nagasakiavenue.wixsite.com/avenue">長崎居留地アベニュー実行委員会</a>
+    {% endif %}
+  {% endif %}
+  <script src="{{ static('js/line/purchase.js') }}"></script>
+{% endblock %}

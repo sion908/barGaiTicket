@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}支払い完了{% endblock %}
+{% block head %}
+  {{ super() }}
+  <script type="text/javascript" src="{{ static('js/employ/approve.js') }}"></script>
+  
+{% endblock %}
+{% block content %}
+    <p>店員に見せてください</p>
+    <div class="rotate" style="text-align: center;width: 80%;border: double thick;">
+        <p>支払いが完了しました</p>
+        <p>店:{{ shop.name }}</p>
+        <p>枚数:{{ employ_num }}</p>
+    </div>
+    <a href="{{ url('app:home') }}" hidden class="tohome">home画面へ</a>
+  
+{% endblock %}

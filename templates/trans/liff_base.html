@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    {% block head %}
+    <link rel="icon" href="{{ static('img/favicon.ico') }}">
+    <link rel="stylesheet" href="{{ static('css/style_liff.css') }}" />
+    <title>{% block title %}{% endblock %} - 長崎居留地プレミアムクーポン</title>
+    <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    {% block initliff %}
+    <script>window.onload=()=>{
+    liff.init({liffId:'{{ liff_id }}',withLoginOnExternalBrowser:true})
+        .then(()=>{
+            if(!liff.isLoggedIn()){liff.login();}
+    {% block afinitliff %}{% endblock afinitliff %}
+    })}</script>
+    {% endblock initliff %}
+    {% endblock head %}
+</head>
+<body>
+    <header>
+  <div class="header_title">
+    <a>プレミアムクーポン決済画面</a>
+  </div>
+  
+</header>
+  <div id="content"><div class="container">{% block content %}{% endblock %}</div></div>
+  <footer>
+      {% block footer %}
+      &copy; Copyright 2023 by {#<a href="{{ url('accounts:top') }}">#}長崎居留地アベニュー実行委員会{#</a>#}.
+      {% endblock %}
+  </footer>
+</body>
+</html>
